@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script defer>
+    import * as FilePond from 'filepond';
+
+
+
+// Import the plugin code
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginImageResize from 'filepond-plugin-image-resize';
+
+import 'filepond/dist/filepond.min.css';
+
+
+FilePond.registerPlugin(FilePondPluginImagePreview,FilePondPluginImageResize);
+
+const inputElement = document.querySelector('input[type="file"]');
+const pond = FilePond.create( inputElement );
+FilePond.parse(document.body);
+
+    </script>
+    <title>Blog</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mb-4">New article</h1>
+
+        <form action="/articles" method="POST">
+            <%- include('_form_fields') %>
+        </form>
+    </div>
+
+    <input type="file" class="filepond" name="cover">
+</body>
+
+</html>

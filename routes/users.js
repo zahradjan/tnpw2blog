@@ -1,0 +1,227 @@
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const express = require('express')
+const bcrypt = require('bcrypt');
+const router = express.Router()
+
+
+
+
+async function hashPassword(password) {
+    return await bcrypt.hash(password, 10);
+}
+
+async function validatePassword(plainPassword, hashedPassword) {
+    return await bcrypt.compare(plainPassword, hashedPassword);
+}
+router.get('/register', (req, res) => {
+    res.render('./users/register')
+})
+
+
+router.post('/register', (req, res) => {
+    const { email, password, role } = req.body;
+
+    /*  User.findOne({ email: email }).then(user => {
+          if (user) {
+              console.log(!"Uživatel existuje!")
+              //   errors.push({ msg: 'Email already exists' });
+              res.render('users/register', {
+                  errors,
+                  email,
+                  password,
+                  role
+  
+              });
+          } else {
+              const newUser = new User({
+                  email,
+                  password,
+                  role
+              });
+              console.log(newUser)
+              res.redirect('/')
+          }
+      })
+  })
+  */
+    let errors = [];
+    console.log("email:" + email)
+    console.log("heslo:" + password)
+    console.log("role:" + role)
+
+    if (!email) {
+        errors.push({ msg: 'Prosím vyplňte všechny údaje!' })
+
+
+    }
+
+    if (!email || !password || !role) {
+        errors.push({ msg: 'Prosím vyplňte všechny údaje!' })
+    }
+
+    if (password.length < 6) {
+        errors.push({ msg: 'Příliš krátké heslo! Heslo musí mít alespoň 6 znaků!' })
+    }
+
+
+    if (errors.length > 0) {
+        
+        res.render('./users/register', {
+            errors, email, password, role
+        });
+    } else {
+        res.send('pass')
+    }
+})
+
+/* console.log(req.body)
+res.send('Hello') */
+/* try {
+    signup(req, res)
+   res.redirect('/')        
+} catch (error) {
+    res.redirect('/login')
+} */
+
+
+/* app.post('/login', async(req,res) =>{
+    try {
+        login(req, res)
+        res.redirect('/')
+    } catch (error) {
+        res.redirect('/login')
+     throw error;
+    }
+    
+  
+   
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+signup  = async (req, res) => {
+    try {
+        const { email, password, role } = req.body
+        const hashedPassword = await hashPassword(password);
+        const newUser = new User({ email, password: hashedPassword, role: role || "basic" });
+        const accessToken = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+            expiresIn: "1d"
+        });
+        newUser.accessToken = accessToken;
+        await newUser.save();
+        res.json({
+            data: newUser,
+            accessToken
+        })
+    } catch (error) {
+        throw error
+    }
+}
+login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) return next(new Error('Email does not exist'));
+        const validPassword = await validatePassword(password, user.password);
+        if (!validPassword) return next(new Error('Password is not correct'))
+        const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "1d"
+        });
+        await User.findByIdAndUpdate(user._id, { accessToken })
+        res.status(200).json({
+            data: { email: user.email, role: user.role },
+            accessToken
+        })
+    } catch (error) {
+        throw error;
+        //next(error);
+    }
+}
+getUsers = async (req, res, next) => {
+    const users = await User.find({});
+    res.status(200).json({
+        data: users
+    });
+}
+
+getUser = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId);
+        if (!user) return next(new Error('User does not exist'));
+        res.status(200).json({
+            data: user
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
+updateUser = async (req, res, next) => {
+    try {
+        const update = req.body
+        const userId = req.params.userId;
+        await User.findByIdAndUpdate(userId, update);
+        const user = await User.findById(userId)
+        res.status(200).json({
+            data: user,
+            message: 'User has been updated'
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
+deleteUser = async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        await User.findByIdAndDelete(userId);
+        res.status(200).json({
+            data: null,
+            message: 'User has been deleted'
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+ */
+module.exports = router
