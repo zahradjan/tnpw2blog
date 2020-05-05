@@ -11,6 +11,8 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
 
+const { ensureAuthenticated, forwardAuthenticated } = require('./config/auth');
+
 // Passport Config
 require('./config/passport')(passport);
 
@@ -62,7 +64,7 @@ app.use('/users',userRouter);
 
 
 
-app.get('/', async (req, res) => {
+app.get('/', ensureAuthenticated, async (req, res) => {
     const articles = await Article.find().sort({ createdAt: 'desc' })
     res.render('articles/index', { articles: articles })
 })

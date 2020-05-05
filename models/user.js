@@ -15,9 +15,6 @@ const userSchema = new mongoose.Schema({
         default: 'basic',
         enum: ["basic", "admin"]
     },
-   /*  accessToken: {
-        type: String
-    } */
 
 });
 const User = mongoose.model('User', userSchema);
