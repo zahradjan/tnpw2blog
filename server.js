@@ -61,12 +61,13 @@ app.use(function(req, res, next) {
 app.use(methodOverride('_method'))
 app.use(express.json())
 app.use('/users',userRouter);
+app.use('/articles',articleRouter);
 
 
 
 app.get('/', ensureAuthenticated, async (req, res) => {
     const articles = await Article.find().sort({ createdAt: 'desc' })
-    res.render('articles/index', { articles: articles })
+    res.render('articles/index', { articles: articles, email:req.user.email })
 })
 
 
