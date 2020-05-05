@@ -9,6 +9,8 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const flash = require('connect-flash');
+const session = require('express-session');
 
 mongoose.connect('mongodb://localhost/blog', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
@@ -19,6 +21,29 @@ app.set('views', __dirname + '/views')
 app.use(express.static(__dirname + '/public'));
 
 app.use(express.urlencoded({ extended: false }))
+
+// Express session
+app.use(
+    session({
+      secret: 'secret',
+      resave: true,
+      saveUninitialized: true
+    })
+  );
+
+// Connect flash
+app.use(flash());
+
+// Global variables
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+
+
 //pro prepisovani jednotlivych Http pozadavku
 app.use(methodOverride('_method'))
 app.use(express.json())

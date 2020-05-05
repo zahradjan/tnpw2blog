@@ -2,7 +2,10 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const express = require('express')
 const bcrypt = require('bcrypt');
+
+const passport = require('passport');
 const router = express.Router()
+
 
 
 
@@ -17,44 +20,18 @@ async function validatePassword(plainPassword, hashedPassword) {
 router.get('/register', (req, res) => {
     res.render('./users/register')
 })
+router.get('/login', (req, res) => {
+    res.render('./users/login')
+})
 
 
 router.post('/register', (req, res) => {
     const { email, password, role } = req.body;
 
-    /*  User.findOne({ email: email }).then(user => {
-          if (user) {
-              console.log(!"Uživatel existuje!")
-              //   errors.push({ msg: 'Email already exists' });
-              res.render('users/register', {
-                  errors,
-                  email,
-                  password,
-                  role
-  
-              });
-          } else {
-              const newUser = new User({
-                  email,
-                  password,
-                  role
-              });
-              console.log(newUser)
-              res.redirect('/')
-          }
-      })
-  })
-  */
     let errors = [];
     console.log("email:" + email)
     console.log("heslo:" + password)
     console.log("role:" + role)
-
-    if (!email) {
-        errors.push({ msg: 'Prosím vyplňte všechny údaje!' })
-
-
-    }
 
     if (!email || !password || !role) {
         errors.push({ msg: 'Prosím vyplňte všechny údaje!' })
@@ -63,42 +40,59 @@ router.post('/register', (req, res) => {
     if (password.length < 6) {
         errors.push({ msg: 'Příliš krátké heslo! Heslo musí mít alespoň 6 znaků!' })
     }
-
+    errors.forEach((error) => { console.log(error.msg) })
 
     if (errors.length > 0) {
-        
+
         res.render('./users/register', {
             errors, email, password, role
         });
     } else {
-        res.send('pass')
+        User.findOne({ email: email }).then(user => {
+            if (user) {
+                errors.push({ msg: 'Email already exists' });
+                res.render('register', {
+                    errors,
+                    email,
+                    password,
+                    role
+                });
+            } else {
+                const newUser = new User({
+                    email,
+                    password,
+                    role
+                });
+
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newUser.password = hash;
+                        newUser
+                            .save()
+                            .then(user => {
+                                req.flash(
+                                    'success_msg',
+                                    'You are now registered and can log in'
+                                );
+                                res.redirect('/users/login');
+                            })
+                            .catch(err => console.log(err));
+                    });
+                });
+            }
+        });
     }
-})
+});
 
-/* console.log(req.body)
-res.send('Hello') */
-/* try {
-    signup(req, res)
-   res.redirect('/')        
-} catch (error) {
-    res.redirect('/login')
-} */
-
-
-/* app.post('/login', async(req,res) =>{
-    try {
-        login(req, res)
-        res.redirect('/')
-    } catch (error) {
-        res.redirect('/login')
-     throw error;
-    }
-    
-  
-   
-})
-
-
+/* router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next);
+});
+ */
 
 
 

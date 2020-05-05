@@ -2,90 +2,82 @@
 <html lang="en">
 
 <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" type="text/css" href="/css/registerForm.css" id="register-form-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="/javascript/formEffects.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://bootswatch.com/4/journal/bootstrap.min.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    
 
 </head>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-login">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <a href="#" class="active" id="login-form-link">Login</a>
-                        </div>
-                        <div class="col-xs-6">
-                            <a href="#" id="register-form-link">Register</a>
-                        </div>
-
-                    </div>
-                    <hr>
-
-
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form id="login-form" action="/users/login" method="post" role="form" style="display: block;">
-                                <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control"
-                                        placeholder="Email Address" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2"
-                                        class="form-control" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4"
-                                                class="form-control btn btn-login" value="Log In">
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </form>
-                            <form id="register-form" action="/users/register" method="post" role="form"
-                                style="display: none;">
-
-                                <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control"
-                                        placeholder="Email Address" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2"
-                                        class="form-control" placeholder="Password">
-                                </div>
-
-                                <div class="form-group text-center">
-                                    <input type="radio" tabindex="3" name="role" id="basic" value="basic">
-                                    <label for="basic"> Basic </label>
-                                    <input type="radio" tabindex="3" name="role" id="admin" value="admin">
-                                    <label for="admin"> Admin </label>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit"
-                                                tabindex="4" class="form-control btn btn-register" value="Register Now">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3">
+         <!--  <i class="fas fa-user-plus"></i>  -->
+         <i class="fas fa-cannabis"></i> Registrace
+        </h1>
+        <%- include('./partials/errorMessages.ejs') %>
+        <form action="/users/register" method="POST">
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              placeholder="Zadejte Email"
+              value="<%= typeof email != 'undefined' ? email : '' %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Heslo</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              placeholder="Vytvořte heslo"
+              value="<%= typeof password != 'undefined' ? password : '' %>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password2">Vyberte roli admin/basic</label>
+            <input
+              type="role"
+              id="role"
+              name="role"
+              class="form-control"
+              placeholder="Napište roli"
+              value="<%= typeof role != 'undefined' ? role : '' %>"
+            />
+          </div>
+          <button type="submit" class="btn btn-success btn-block">
+            Registrovat
+          </button>
+        </form>
+        <p class="lead mt-4">Máte již účet? <a href="/users/login">Přihlášení</a></p>
+      </div>
     </div>
-</div>
-<%- include('./partials/errorMessages.ejs') %>
+  </div>
+  
+
 </body>
 
 </html>
