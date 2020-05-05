@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
 const express = require('express')
 const bcrypt = require('bcrypt');
 
@@ -7,16 +6,6 @@ const passport = require('passport');
 const router = express.Router()
 
 
-
-
-
-async function hashPassword(password) {
-    return await bcrypt.hash(password, 10);
-}
-
-async function validatePassword(plainPassword, hashedPassword) {
-    return await bcrypt.compare(plainPassword, hashedPassword);
-}
 router.get('/register', (req, res) => {
     res.render('./users/register')
 })
@@ -50,7 +39,7 @@ router.post('/register', (req, res) => {
     } else {
         User.findOne({ email: email }).then(user => {
             if (user) {
-                errors.push({ msg: 'Email already exists' });
+                errors.push({ msg: 'Email již existuje' });
                 res.render('register', {
                     errors,
                     email,
@@ -73,7 +62,7 @@ router.post('/register', (req, res) => {
                             .then(user => {
                                 req.flash(
                                     'success_msg',
-                                    'You are now registered and can log in'
+                                    'Nyní jste registrovaní a můžete se přihlásit'
                                 );
                                 res.redirect('/users/login');
                             })
@@ -85,14 +74,14 @@ router.post('/register', (req, res) => {
     }
 });
 
-/* router.post('/login', (req, res, next) => {
+router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next);
 });
- */
+
 
 
 

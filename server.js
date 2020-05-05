@@ -3,14 +3,16 @@ const mongoose = require('mongoose')
 const articleRouter = require('./routes/articles')
 const userRouter = require('./routes/users')
 const Article = require('./models/article')
-const User = require('./models/user')
-const bcrypt = require('bcrypt')
+const passport = require('passport');
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
+
+// Passport Config
+require('./config/passport')(passport);
 
 mongoose.connect('mongodb://localhost/blog', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
@@ -21,6 +23,8 @@ app.set('views', __dirname + '/views')
 app.use(express.static(__dirname + '/public'));
 
 app.use(express.urlencoded({ extended: false }))
+
+
 
 // Express session
 app.use(
@@ -33,6 +37,13 @@ app.use(
 
 // Connect flash
 app.use(flash());
+
+
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Global variables
 app.use(function(req, res, next) {
