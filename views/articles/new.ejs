@@ -33,11 +33,15 @@ FilePond.parse(document.body);
         <h1 class="mb-4">New article</h1>
 
         <form action="/articles" method="POST">
-            <%- include('_form_fields') %>
+            <%- include('./partials/form_fields') %>
         </form>
     </div>
 
     <input type="file" class="filepond" name="cover">
+
+    <div>
+        <%- include('./partials/footer.ejs')%>
+    </div>
 </body>
 
 </html>

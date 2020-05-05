@@ -15,14 +15,14 @@ router.get('/login', (req, res) => {
 
 
 router.post('/register', (req, res) => {
-    const { email, password, role } = req.body;
+    const { name, email, password, role } = req.body;
 
     let errors = [];
     console.log("email:" + email)
     console.log("heslo:" + password)
     console.log("role:" + role)
 
-    if (!email || !password || !role) {
+    if (!name || !email || !password || !role) {
         errors.push({ msg: 'Prosím vyplňte všechny údaje!' })
     }
 
@@ -42,12 +42,14 @@ router.post('/register', (req, res) => {
                 errors.push({ msg: 'Email již existuje' });
                 res.render('register', {
                     errors,
+                    name,
                     email,
                     password,
                     role
                 });
             } else {
                 const newUser = new User({
+                    name,
                     email,
                     password,
                     role

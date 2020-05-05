@@ -67,7 +67,7 @@ app.use('/articles',articleRouter);
 
 app.get('/', ensureAuthenticated, async (req, res) => {
     const articles = await Article.find().sort({ createdAt: 'desc' })
-    res.render('articles/index', { articles: articles, email:req.user.email })
+    res.render('articles/index', { articles: articles, name:req.user.name })
 })
 
 
