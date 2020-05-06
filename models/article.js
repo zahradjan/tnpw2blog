@@ -27,7 +27,6 @@ const articleSchema = new mongoose.Schema({
         default: Date.now
 
     },
-
     slug: {
         type: String,
         required: true,

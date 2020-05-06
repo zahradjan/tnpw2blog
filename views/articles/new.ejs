@@ -16,25 +16,7 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script><script defer>
-    import * as FilePond from 'filepond';
-
-
-
-// Import the plugin code
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import FilePondPluginImageResize from 'filepond-plugin-image-resize';
-
-import 'filepond/dist/filepond.min.css';
-
-
-FilePond.registerPlugin(FilePondPluginImagePreview,FilePondPluginImageResize);
-
-const inputElement = document.querySelector('input[type="file"]');
-const pond = FilePond.create( inputElement );
-FilePond.parse(document.body);
-
-    </script>
+        crossorigin="anonymous"></script>
     <title>Blog</title>
 </head>
 
@@ -48,7 +30,6 @@ FilePond.parse(document.body);
         </form>
     </div>
 
-    <input type="file" class="filepond" name="cover">
 
     <div>
         <%- include('./partials/footer.ejs')%>

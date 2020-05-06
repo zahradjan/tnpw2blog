@@ -34,6 +34,7 @@
             <div class="card-body">
                 <h4 class="card-title"><%= article.title%></h4>
                 <div class="card-text mb-2"><%= article.author %></div>
+              
                 <div class="card-subtitle text-muted mb-2">
                     <%= article.createdAt.toLocaleDateString() %>
                 </div>
@@ -41,7 +42,7 @@
                 <a href="articles/<%= article.slug%>" class="btn btn-primary">Zobrazit článek</a>
                 <% if(article.author == name) {%>
                 <a href="articles/edit/<%= article.id%>" class="btn btn-primary">Upravit</a>
-                    
+
                 <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-danger">Smazat</button>
                 </form>
@@ -51,10 +52,10 @@
         </div>
         <%})%>
 
-    </div>
-    <div>
-        <%- include('./partials/footer.ejs')%>
-    </div>
+            </div>
+            <div>
+                <%- include('./partials/footer.ejs')%>
+            </div>
 </body>
 
 </html>

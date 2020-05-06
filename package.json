@@ -12,26 +12,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "accesscontrol": "^2.2.1",
     "bcrypt": "^4.0.1",
     "connect-flash": "^0.1.1",
     "dompurify": "^2.0.8",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
-    "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
-    "filepond": "^4.13.4",
-    "filepond-plugin-image-preview": "^4.6.1",
-    "filepond-plugin-image-resize": "^2.0.4",
-    "jsdom": "^16.2.2",
-    "jsonwebtoken": "^8.5.1",
-    "marked": "^0.8.2",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "slugify": "^1.4.0",
-    "user-model": "^0.2.0"
+    "slugify": "^1.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

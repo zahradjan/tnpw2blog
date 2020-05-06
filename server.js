@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const articleRouter = require('./routes/articles')
 const userRouter = require('./routes/users')
 const Article = require('./models/article')
-const User = require('./models/user')
 const passport = require('passport');
 const app = express()
 const methodOverride = require('method-override')
@@ -12,7 +11,7 @@ const session = require('express-session');
 
 const { ensureAuthenticated, forwardAuthenticated } = require('./config/auth');
 
-// Passport Config
+// Passport konfigurace
 require('./config/passport')(passport);
 
 mongoose.connect('mongodb://localhost/blog', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -27,7 +26,7 @@ app.use(express.urlencoded({ extended: false }))
 
 
 
-// Express session
+// Express nastavení session
 app.use(
     session({
       secret: 'secret',
@@ -36,17 +35,17 @@ app.use(
     })
   );
 
-// Connect flash
+// Pouziti flash modulu
 app.use(flash());
 
 
 
-// Passport middleware
+// Passport inicilizace s použitám session
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// Global variables
+// globální proměnné
 app.use(function(req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
@@ -61,7 +60,7 @@ app.use(methodOverride('_method'))
 app.use(express.json())
 app.use('/users',userRouter);
 app.use('/articles',articleRouter);
-
+app.use('/uploads', express.static('uploads'));
 
 
 app.get('/', ensureAuthenticated, async (req, res) => {
