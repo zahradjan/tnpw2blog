@@ -26,8 +26,9 @@
         <h1 class="mb-4"><%= article.title %></h1>
         <div class="text-muted mb-2"><%=article.createdAt.toLocaleDateString() %></div>
         <a href="/" class="btn btn-secondary">Všechny články</a>
+        <% if(article.author == name) {%>
         <a href="/articles/edit/<%= article.id%>" class="btn btn-info">Upravit</a>
-
+        <% } %>
         <div>
             <%- article.sanitizedHTML%>
         </div>

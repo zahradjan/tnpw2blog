@@ -15,14 +15,13 @@ router.get('/login', (req, res) => {
 
 
 router.post('/register', (req, res) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password} = req.body;
 
     let errors = [];
     console.log("email:" + email)
     console.log("heslo:" + password)
-    console.log("role:" + role)
 
-    if (!name || !email || !password || !role) {
+    if (!name || !email || !password) {
         errors.push({ msg: 'Prosím vyplňte všechny údaje!' })
     }
 
@@ -34,7 +33,7 @@ router.post('/register', (req, res) => {
     if (errors.length > 0) {
 
         res.render('./users/register', {
-            errors, email, password, role
+            errors, email, password
         });
     } else {
         User.findOne({ email: email }).then(user => {
@@ -44,15 +43,15 @@ router.post('/register', (req, res) => {
                     errors,
                     name,
                     email,
-                    password,
-                    role
+                    password
+                   
                 });
             } else {
                 const newUser = new User({
                     name,
                     email,
-                    password,
-                    role
+                    password
+                    
                 });
 
                 bcrypt.genSalt(10, (err, salt) => {
