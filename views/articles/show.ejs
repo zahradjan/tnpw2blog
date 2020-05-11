@@ -23,20 +23,31 @@
 <body>
     <%- include('./partials/header.ejs')%>
     <div class="container">
-        <h1 class="mb-4"><%= article.title %></h1>
-        <div class="text-muted mb-2"><%=article.createdAt.toLocaleDateString() %></div>
-        <a href="/" class="btn btn-secondary">Všechny články</a>
-        <% if(article.author == name) {%>
-        <a href="/articles/edit/<%= article.id%>" class="btn btn-info">Upravit</a>
-        <% } %>
-        <div>
-            <%- article.sanitizedHTML%>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="card-title"><%= article.title%></h4>
+                <div class="card-text mb-2"><%= article.author %></div>
+
+                <div class="card-subtitle text-muted mb-2">
+                    <%= article.createdAt.toLocaleDateString() %>
+                </div>
+                <div class="card-text mb-2"><%= article.description %></div>
+                <a href="/" class="btn btn-secondary">Všechny články</a>
+                <% if(article.author == name) {%>
+
+
+                <a href="articles/edit/<%= article.id%>" class="btn btn-primary">Upravit</a>
+                <%}%>
+            
         </div>
     </div>
-
-    <div>
-        <%- include('./partials/footer.ejs')%>
     </div>
+
+
+    
+            <div>
+                <%- include('./partials/footer.ejs')%>
+            </div>
 </body>
 
 </html>
