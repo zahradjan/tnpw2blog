@@ -9,7 +9,7 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash');
 const session = require('express-session');
 
-const { ensureAuthenticated, forwardAuthenticated } = require('./config/auth');
+const { ensureAuthenticated } = require('./config/auth');
 
 // Passport konfigurace
 require('./config/passport')(passport);
@@ -40,7 +40,7 @@ app.use(flash());
 
 
 
-// Passport inicilizace s použitám session
+// Passport inicilizace s použitím session
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -60,7 +60,7 @@ app.use(methodOverride('_method'))
 app.use(express.json())
 app.use('/users',userRouter);
 app.use('/articles',articleRouter);
-app.use('/uploads', express.static('uploads'));
+
 
 
 app.get('/', ensureAuthenticated, async (req, res) => {
